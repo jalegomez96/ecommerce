@@ -1,0 +1,4 @@
+//1 intalar 
+pip install django-admin-interface
+//2intalar
+pip install django-crispy-forms

@@ -1,0 +1,87 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<div  class="container">
+
+
+
+    <!-- Titulo -->
+    <div class="col-12 mb-4 busqueda-content__titulo">
+        {% if categoria %}
+        <h2 class="display-4 text-center text-capitalize ">
+            {{ titulo_seccion }}
+            <strong>
+                "{{ categoria }}"
+            </strong>
+        </h2>
+        {% endif %}
+
+        {% if texto_buscado %}
+        <h2 class="display-4 text-center text-capitalize ">
+            {{ seccion }}
+            <strong>
+                "{{ texto_buscado }}"
+            </strong>
+        </h2>
+        {% endif %}
+    </div>
+
+    <!-- Productos -->
+
+    <div class="row">
+
+
+
+        {% for p in producto %}
+
+                <div class="col-lg-4">
+			        <div class="box-element product">
+				        <img src="/media/{{ p.foto }}" class="d-block w-100">
+				        	<h6><strong>{{p.nombre | title }}</strong></h6>
+				        	<hr>
+					        <button class="btn btn-outline-secondary add-btn"> Agregar <img id="cart-icon"src="{% static 'img/cart.png' %}"></button>
+					        <a class="btn btn-outline-success" href="{% url 'detalle' p.id %}"><i
+					        		class="fas fa-tags"></i>View</a>
+					        <h4 style="display: inline-block; float: right"><strong>{{p.precio | floatformat:2 }}</strong></h4>
+
+		            </div> 
+		        </div>
+        {% empty %}
+            <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;">No hay productos que coincidan</h2>
+        {% endfor %}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    
+</div >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

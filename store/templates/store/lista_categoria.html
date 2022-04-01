@@ -1,0 +1,80 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+{% block js %}
+
+
+<script>
+  function elimina(id) {
+    Swal.fire({
+      title: "Esta seguro?",
+      text: "Esta accion no se puede deshacer",
+      icon: "question",
+      showCancelButton: true,
+      cancelButtonText: "No, Cancelar",
+      confirmButtonText: "Si, Eliminar",
+      reverseButtons: true,
+      confirmButtonColor: "#dc3545",
+    })
+      .then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = "/elimina/" + id + "/";
+        }
+      });
+  }
+</script>
+
+{% endblock %}
+
+
+
+<div class="card">
+  <div class="card-body">
+    <h2>Lista Categoria</h2>
+
+    <table class="table table-striped table-hover table-responsive-sm">
+      <tr>
+        <th>Codigo</th>
+
+        <th>Nombre</th>
+
+        <th>Especificaciones</th>
+      </tr>
+
+        {% for p in categoria %}
+      <tr>
+        <td>{{p.codigo | title }}</td>
+        <td>{{p.nombre | title }}</td>
+        <td>{{p.especificaciones | title }}
+        <td>
+          <a href="{% url 'edita' p.id %}" class="btn btn-info btn-sm"><i class="far fa-edit"></i>Editar</a>
+          
+        </td>
+        <td><a href="#" onClick="elimina({{p.id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Eliminar</a></td>
+          
+
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {% if messages %}
+  {% for m in messages %}
+
+  <script>
+
+    Swal.fire({
+
+      title: "Felicitaciones",
+      text: "{{m}}",
+      icon: "success",
+    });
+  </script>
+
+  {% endfor %}
+  {% endif %}
+</div>
+   {% include 'store/paginator.html' %}
+
+{% endblock content %}

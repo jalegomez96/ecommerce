@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+  <title>Ecom</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+  <link rel="stylesheet" href="{% static 'css/estilo.js' %}">
+  <link rel="icon" href="{% static 'img/icono_1.png' %}">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.css"
+    integrity="sha512-8WAX0xL/cHZ38RXoX2gtuqkAwmDVAzGwoFVmHvn46IDHGWOjTHx0vcl9OapNrfOzpFtql0SNkv+0y0b5Fm8ZkA=="
+    crossorigin="anonymous" />
+
+  <!-- Place at the bottom of the body tag -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js"
+    integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg=="
+    crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #155f59;">
+    <a class="navbar-brand" href="{% url 'store' %}"><img src="{% static 'img/logo_horizontal.png' %}" alt=""
+        width="120" height="60">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        <li class="nav-item">
+
+        </li>
+
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Categorias</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            {% for categoria in categorias %}
+            <a class="dropdown-item" href="{% url 'categori_productos' categoria.id %}">{{categoria.nombre.capitalize}}</a>
+            {% endfor %}
+
+          </div>
+        </li>
+        <li>
+          <center>
+            <form action="{% url 'buscador_productos' %}" method="GET" class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" name="texto" type="text" placeholder="Buscar producto...">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">buscar</button>
+            </form>
+
+          </center>
+        </li>
+
+
+
+        <!-- PARA ADMINS/MODERADORES -->
+        {% if user.is_superuser %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="" id="dropdownId" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"><i class="fas fa-plus-circle"></i> Categorias</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="nav-link text-muted" href="{% url 'categoria' %}">Agregar</a>
+            <a class="nav-link text-muted" href="{% url 'listar' %}"><i class="far fa-edit"></i>Lista</a>
+
+
+
+          </div>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'producto' %}" id="dropdownId" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus-circle"></i>Productos</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="nav-link text-muted" href="{% url 'producto' %}">Agregar</a>
+            <a class="nav-link text-muted" href="{% url 'lista' %}"><i class="far fa-edit"></i>Lista</a>
+
+          </div>
+        </li>
+        {% endif %}
+
+
+
+
+        </li>
+
+      </ul>
+
+      <div class="ml-auto d-flex">
+
+
+        {% if user.is_authenticated %}
+        <div class="top-right">
+          <div class="header-menu">
+            <div class="user-area dropdown float-right">
+              <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <img class="user-avatar rounded-circle" src="{% static 'img/admin.png' %}"
+                  alt="User Avatar">{{user.username }}</a>
+              <div class="user-menu dropdown-menu">
+                <a class="nav-link" href=""><i class="fa fa- user"></i>Cambiar Contraseña</a>
+                <a class="nav-link" href=""><i class="fa fa -cog"></i>Administración</a>
+                <a class="nav-link" href="{% url 'cerrar' %}"><i class="fa fa-power -off"></i>Logout</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div style="display: flex;">
+
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'img/cart.png' %}">
+          </a>
+          <p id="cart-total">0</p>
+
+
+        </div>
+        {% else %}
+        <!--login-->
+        <div class="form-inline my-2 my-lg-0">
+          <a href="{% url 'logins' %}" class="btn btn-outline-success btn-sm">Iniciar Secion</a>
+
+
+          <a href="{% url 'registrar' %}" class="btn btn-outline-info btn-sm"> registrarse</a>
+
+          {% endif %}
+          <!-- CONDICIONES -->
+
+          <!-- FIN CONDICIONES -->
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="container">
+
+    <hr>
+
+
+    <br>
+    {% block content %}
+
+    {% endblock content %}
+  </div>
+  <br>
+  <br>
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col">
+          <h4>company</h4>
+          <ul>
+            <li><a href="#">about us</a></li>
+            <li><a href="#">our services</a></li>
+            <li><a href="#">privacy policy</a></li>
+            <li><a href="#">affiliate program</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>get help</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">shipping</a></li>
+            <li><a href="#">returns</a></li>
+            <li><a href="#">order status</a></li>
+            <li><a href="#">payment options</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>online shop</h4>
+          <ul>
+            <li><a href="#">watch</a></li>
+            <li><a href="#">bag</a></li>
+            <li><a href="#">shoes</a></li>
+            <li><a href="#">dress</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>follow us</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.twitter.com"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center derechos_reservados">
+        <p class="text-secondary border-top border-bottom">
+          Derechos reservados
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
