@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':  'tienda',
-        'USER': 'root',
-        'PASSWORD':'LAcasona',
-        'HOST': '127.0.0.1',
+        'NAME':  'heroku_c6108cee0af3006',
+        'USER': 'b189657fa39734',
+        'PASSWORD':'83da6eba',
+        'HOST': 'us-cdbr-east-05.cleardb.net',
         'PORT':'3306'
     }
 }
